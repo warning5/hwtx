@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sqlGroup name="pbc">
+    <sql-clause id="getFinancialOrgsByPbcOrg">
+        <select>
+            select @row := @row + 1 as
+            num,a.*
+        </select>
+        <exceptSelect>
+            from app_financial_info as a,app_pbc_financial as b,(SELECT @row := ?) r where a.id = b.financialId and
+            b.orgId = ?
+        </exceptSelect>
+    </sql-clause>
+    <sql-clause id="getAppPbcOgs">
+        <select>
+            select @row := @row + 1 as
+            num,a.*,b.name
+        </select>
+        <exceptSelect>
+            from app_pbc_info as a,sys_org as b,(SELECT @row := ?) r where a.city in (select city from app_pbc_info
+            where orgId = ?) and a.area is not null and a.orgId = b.orgId
+        </exceptSelect>
+    </sql-clause>
+    <sql id="relationPbcAndFin">
+        INSERT ignore INTO app_pbc_financial (orgId,financialId) VALUES (?,?);
+    </sql>
+    <sql id="insertFinancialOrg">
+        INSERT ignore INTO app_financial_info
+        (id,name,province,city,area,uniCode,contact,phone,address,orgId) VALUES
+        (?,?,?,?,?,?,?,?,?,?);
+    </sql>
+    <sql id="insertAppPbcInfo">
+        INSERT ignore INTO app_pbc_info
+        (id,province,city,area,contact,phone,address,orgId) VALUES
+        (?,?,?,?,?,?,?,?);
+    </sql>
+    <sql id="deletePbcOrglByOrgId">
+        delete from app_pbc_info where orgId = ?
+    </sql>
+    <sql id="updateAppPbcInfo">
+        UPDATE ignore app_pbc_info
+        SET
+        province = ?,
+        city = ?,
+        area = ?,
+        contact = ?,
+        phone = ?,
+        address = ?,
+        orgId = ?
+        WHERE id = ?;
+    </sql>
+    <sql id="updateFinancialOrg">
+        UPDATE ignore app_financial_info
+        SET
+        name = ?,
+        province = ?,
+        city = ?,
+        area = ?,
+        uniCode = ?,
+        contact = ?,
+        phone = ?,
+        address = ?,
+        orgId = ?
+        WHERE id = ?;
+    </sql>
+    <sql id="getAppPbcInfo">
+        select a.*,name from app_pbc_info as a,sys_org as b where id = ? and b.orgId = a.orgId
+    </sql>
+    <sql-clause id="getPbcUsers">
+        <select>
+            select @row := @row + 1 as num,b.name userName,b.login_date,c.name as orgName,c.orgId,b.userId
+        </select>
+        <exceptSelect>
+            from app_pbc_info as a,(SELECT @row := ?) r,sys_user as b,sys_org as c,sys_org_user as d where
+            a.orgId = c.orgId and b.userId = d.userId and d.orgId = c.orgId and a.area is not null
+        </exceptSelect>
+    </sql-clause>
+</sqlGroup>

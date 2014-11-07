@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/hwtxframework-app/hwtxframework-app.iml" filepath="$PROJECT_DIR$/hwtxframework-app/hwtxframework-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hwtxframework-common/hwtxframework-common.iml" filepath="$PROJECT_DIR$/hwtxframework-common/hwtxframework-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hwtxframework-ioc/hwtxframework-ioc.iml" filepath="$PROJECT_DIR$/hwtxframework-ioc/hwtxframework-ioc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hwtxframework-jboss-modules/hwtxframework-jboss-modules.iml" filepath="$PROJECT_DIR$/hwtxframework-jboss-modules/hwtxframework-jboss-modules.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hwtxframework-jfinal/hwtxframework-jfinal.iml" filepath="$PROJECT_DIR$/hwtxframework-jfinal/hwtxframework-jfinal.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hwtxframework-jfinal-ext/hwtxframework-jfinal-ext.iml" filepath="$PROJECT_DIR$/hwtxframework-jfinal-ext/hwtxframework-jfinal-ext.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hwtxframework-parent/hwtxframework-parent.iml" filepath="$PROJECT_DIR$/hwtxframework-parent/hwtxframework-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hwtxframework-root.iml" filepath="$PROJECT_DIR$/hwtxframework-root.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hwtxframework-tool/hwtxframework-tool.iml" filepath="$PROJECT_DIR$/hwtxframework-tool/hwtxframework-tool.iml" />
+    </modules>
+  </component>
+</project>
+

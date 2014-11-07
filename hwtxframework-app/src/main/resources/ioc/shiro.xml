@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<composite xmlns="http://www.hwtx.org/schema/components"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.hwtx.org/schema/components hwtx-ioc.xsd">
+	
+	<component name="shiroFilter" class="com.hwtx.config.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="loginUrl" value="${adminPath}/login" />
+		<property name="successUrl" value="${adminPath}/" />
+		<property name="filters">
+            <map>
+                <entry key="authc" value-ref="formAuthenticationFilter"/>
+                <entry key="resource" value-ref="resourceAuthFilter"/>
+            </map>
+        </property>
+		<property name="filterChainDefinitions">
+			<value>
+				/static/** = anon
+				/userfiles/** = anon
+				${adminPath}/login = authc
+				${adminPath}/logout = logout
+				${adminPath}/** = resource
+		 	</value>
+		</property>
+	</component>
+	
+	<component name="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="systemAuthorizingRealm" />
+	 	<property name="cacheManager" ref="shiroCacheManager" />
+	</component>
+	
+	<component name="shiroCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+		<property name="cacheManager" ref="cacheManager"/>
+	</component>
+</composite>

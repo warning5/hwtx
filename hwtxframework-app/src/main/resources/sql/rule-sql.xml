@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sqlGroup name="rule">
+    <sql id="getDefCats">
+        SELECT a.* FROM def_cat as a order by dcatSquence
+    </sql>
+    <sql id="getDefClasses">
+        SELECT a.* FROM def_class as a order by dclassSquence
+    </sql>
+    <sql id="getDefKpis">
+        SELECT a.* FROM def_kpi as a order by dkpiSquence
+    </sql>
+    <sql id="getDefCatByName">
+        select a.dcatName,a.dcatId from def_cat as a where dcatName = ?
+    </sql>
+    <sql id="getDefClassByName">
+        select a.dclassName,a.dclassId from def_class as a where dclassName = ?
+    </sql>
+    <sql id="getDefKpiByName">
+        select a.dkpiName,a.dkpiId from def_kpi as a where dkpiName = ?
+    </sql>
+    <sql id="getSubmitOrgRole">
+        select name,roleId from sys_role where pid in (select roleId from sys_role where name = ?)
+    </sql>
+    <sql id="getDefInidataByName">
+        select diniDataName,diniDataId from def_inidata where diniDataName = ?
+    </sql>
+    <sql id="deleteDefInidata">
+        update def_inidata set diniDataDelMark = 1 where diniDataId = ?
+    </sql>
+    <sql id="getIniDataNameAndLabels">
+        select diniDataId,diniDataLabel from def_inidata as a where a.diniDataDelMark = 0
+    </sql>
+    <sql id="getFormulaByKpiId">
+        select a.* from def_formula as a,def_kpi as b where b.dkpiId = ? and b.dkpiCalRuleId = a.calRuleId
+    </sql>
+    <sql id="getDefInidatasBySubmitRole">
+        select a.* from def_inidata as a where a.submitOrgRole = ? order by diniDataLabel
+    </sql>
+    <sql-clause id="getDefInidata">
+        <select>
+            select @row := @row + 1 as
+            num,a.*,b.name as orgRole,c.name as update_by
+        </select>
+        <exceptSelect>
+            from def_inidata as a,sys_role as b,sys_user as c,(SELECT @row := ?) r where a.submitOrgRole = b.roleId and
+            c.userId = a.update_by and a.diniDataDelMark = 0
+        </exceptSelect>
+    </sql-clause>
+    <sql id="getFormulaInidata">
+        select inidatas from def_formula as a,def_kpi as b where b.dkpiId = ? and b.dkpiCalRuleId = a.calRuleId
+    </sql>
+</sqlGroup>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqlGroup name="function">
+	<model-mapping>
+		<mapping model="com.hwtx.modules.sys.entity.SysFunctionPermission"
+			alias="fp,permission" name="permission" />
+	</model-mapping>
+	<sql id="getResourceFunctions">
+		select * from sys_function_permission where menu = 0
+	</sql>
+	<sql id="getResourceFunction">
+		select * from sys_function_permission where permissionId = ?
+	</sql>
+	<sql id="getAllMenus">
+		select fp.*
+		from sys_function_permission as fp
+		where fp.menu = 1
+	</sql>
+	<sql id="getAllResources">
+		select fp.*
+		from sys_function_permission as fp
+		where fp.menu = 0
+	</sql>
+    <sql id="getAllChildren">
+        select queryFunctionChildren(?) as ids
+    </sql>
+    <sql id="batchDelete">
+        delete from sys_function_permission where permissionId = ?
+    </sql>
+</sqlGroup>

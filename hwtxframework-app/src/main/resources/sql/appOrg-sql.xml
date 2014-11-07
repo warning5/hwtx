@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sqlGroup name="appOrg">
+    <sql id="getPbcInfoByOrgId">
+        select a.*,b.* from sys_org as a,app_pbc_info as b where a.orgId = b.orgId and a.orgId = ? and a.type = ?
+    </sql>
+    <sql id="getAppPbcOrgs">
+        select a.* from app_pbc_info as a
+    </sql>
+    <sql id="getAppFinancialOrgs">
+        select * from app_financial_info
+    </sql>
+</sqlGroup>

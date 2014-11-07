@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.hwtxframework</groupId>
+		<artifactId>hwtxframework-parent</artifactId>
+		<version>0.0.1</version>
+        <relativePath>../hwtxframework-parent/pom.xml</relativePath>
+	</parent>
+	<groupId>com.hwtxframework</groupId>
+	<artifactId>hwtxframework-jboss-modules</artifactId>
+	<version>0.0.1</version>
+	<name>hwtxframework-jboss-modules</name>
+	<url>http://maven.apache.org</url>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	 <build>
+        <plugins>
+            <!-- Compiler -->
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <showDeprecation>true</showDeprecation>
+                    <showWarnings>true</showWarnings>
+                </configuration>
+            </plugin>
+
+            <!-- Surefire -->
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <redirectTestOutputToFile>true</redirectTestOutputToFile>
+                    <trimStackTrace>false</trimStackTrace>
+                     <!-- Modules ignores Class-Path -->
+                    <useManifestOnlyJar>false</useManifestOnlyJar>
+                    <printSummary>true</printSummary>
+                    <includes>
+                        <include>**/*Test.java</include>
+                    </includes>
+                    <forkMode>always</forkMode>
+                </configuration>
+            </plugin>
+
+            <!-- JAR -->
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>org.jboss.modules.Main</mainClass>
+                        </manifest>
+                        <manifestEntries>
+                            <Jar-Version>${project.version}</Jar-Version>
+                            <Jar-Name>${project.artifactId}</Jar-Name>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <!-- Source -->
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+
+            <!-- Javadoc -->
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <doclet>net.gleamynode.apiviz.APIviz</doclet>
+                    <docletArtifact>
+                        <groupId>org.jboss.apiviz</groupId>
+                        <artifactId>apiviz</artifactId>
+                        <version>1.3.2.GA</version>
+                    </docletArtifact>
+                    <excludePackageNames>__redirected</excludePackageNames>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <dependencies>
+        <dependency>
+            <groupId>org.jboss.shrinkwrap</groupId>
+            <artifactId>shrinkwrap-impl-base</artifactId>
+            <version>1.0.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.7</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>

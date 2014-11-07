@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<composite xmlns="http://www.hwtx.org/schema/components"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://www.hwtx.org/schema/components hwtx-ioc.xsd">
+
+    <property-placeholder location="classpath*:/jeesite.properties"/>
+    <component-scan
+            base-package="com.hwtx.modules.sys,com.hwtx.framework,com.jfinal.core,com.thinkgem.jeesite,com.hwtx.fncel"/>
+    <component name="cacheManager"
+               class="com.hwtx.framework.EhCacheManagerFactoryBean">
+        <property name="configLocation" value="classpath:${ehcache.configFile}"/>
+    </component>
+    <component name="jFinalCache" class="com.hwtx.framework.JFinalCache"/>
+</composite>

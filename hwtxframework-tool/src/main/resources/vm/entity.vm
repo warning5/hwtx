@@ -1,0 +1,31 @@
+package ${package};
+
+import com.jfinal.core.HwTx;
+import com.jfinal.ext.plugin.tablebind.TableBind;
+import com.thinkgem.jeesite.common.persistence.DataEntity;
+
+@TableBind(tableName = "${table.name}", pkName = "${table.pkName}")
+public class ${table.definationName} extends DataEntity<${table.definationName}> {
+
+    public static ${table.definationName} dao = new ${table.definationName}();
+
+#foreach($column in $table.columnList)
+    #set($name = $column.name)
+    #if($name!='create_time'&&$name!='update_time'&&$name!='create_by'&&$name!='update_by')
+
+    public ${column.type.type} get${column.definationName}() {
+        return get("${column.name}");
+    }
+
+    public void set${column.definationName}(${column.type.type} ${column.variableName}) {
+        set("${column.name}",${column.variableName});
+    }
+    #end
+#end
+
+    public String actions = "actions";
+
+    public String getActions() {
+        return actions;
+    }
+}

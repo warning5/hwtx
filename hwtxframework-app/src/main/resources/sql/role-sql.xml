@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sqlGroup name="role">
+
+	<sql id="findAllRoles">select role.roleId as role_roleId,role.name as
+		role_name,role.type as role_type,role.pid as role_pid,role.description
+		as role_description
+		from sys_role as role order by pid
+	</sql>
+	<sql id="deleteRoles">
+		delete from sys_role where roleId = ?
+	</sql>
+	<sql id="getRolePermissions">
+		select rp.roleId,rp.permissionId from sys_role_permission
+		as rp where rp.roleId = ?
+	</sql>
+	<sql id="insertRolePermissions">
+		insert into sys_role_permission(id,permissionId,roleId)
+		values(?,?,?)
+	</sql>
+	<sql id="deleteRolePermissions">
+		delete from sys_role_permission where permissionId = ? and
+		roleId = ?
+	</sql>
+	<sql id="getAssignedRoles">
+		select name as roleName,role.roleId from sys_role as
+		role join sys_role_permission as rp on rp.roleId = role.roleId
+		union
+		select name as roleName,role.roleId from sys_role as
+		role join sys_user_role as ur on ur.sys_roleId = role.roleId
+        union
+        select name as roleName,role.roleId from sys_role as
+        role join sys_org_role as ro on ro.roleId = role.roleId
+	</sql>
+    <sql id="getRolesByUserId">
+        select a.* from sys_role as a join sys_user_role as b on b.sys_roleId = a.roleId and b.sys_userId = ?
+    </sql>
+    <sql id="getRoleByName">
+        select a.* from sys_role as a where a.name = ?
+    </sql>
+    <sql id="getAllChildren">
+        select queryRoleChildren(?) as ids
+    </sql>
+    <sql id="getRoleFuns">
+        select fp.permissionId as permissionId
+        from
+        sys_user as user
+        join
+        sys_user_role as ur on
+        user.userId=ur.sys_userId
+        join
+        sys_role as role on
+        ur.sys_roleId=role.roleId left JOIN
+        sys_role_permission as rp ON
+        rp.roleId=role.roleId left join
+        sys_function_permission as fp on
+        fp.permissionId = rp.permissionId
+        where user.userId = ?
+    </sql>
+</sqlGroup>

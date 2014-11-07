@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqlGroup name="biz">
+	<model-mapping>
+		<mapping model="com.hwtx.modules.sys.entity.SysBizPermission"
+			alias="bp" name="biz" />
+	</model-mapping>
+	<sql id="getAllBizs">
+		select bp.* from sys_biz_permission as bp
+	</sql>
+	<sql id="getAssignedBizs">
+		select a.permissionId,a.name from sys_biz_permission as a
+		join sys_role_permission as b
+		on a.permissionId = b.permissionId
+	</sql>
+	<sql id="delete">
+		delete from sys_biz_permission where permissionId = ?
+	</sql>
+	<sql id="getBizParams">
+		select name,type,serial from sys_biz_permission_param where
+		permissionId = ?
+	</sql>
+	<sql id="insertOrUpdateDef">
+		UPDATE sys_biz_permission set permission_def = ? where permissionId = ?
+	</sql>
+	<sql id="deleteAllParams">
+		delete from sys_biz_permission_param where permissionId = ?
+	</sql>
+	<sql id="insertParams">
+		insert into sys_biz_permission_param values(?,?,?,?,?)
+	</sql>
+    <sql id="getAllChildren">
+        select queryBizChildren(?) as ids
+    </sql>
+</sqlGroup>

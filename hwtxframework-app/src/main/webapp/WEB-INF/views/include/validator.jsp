@@ -1,0 +1,1 @@
+<script type="text/javascript" src="/static/bootstrapvalidator/0.2.1/validator.js"></script>

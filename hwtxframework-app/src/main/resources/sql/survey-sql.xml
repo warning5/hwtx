@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sqlGroup name="survey">
+    <sql id="getSurveies">
+        select * from def_survey where enable = 1
+    </sql>
+    <sql id="getQuestions">
+        select a.* from def_questions as a,survey_questions as b where a.questionId = b.questionId and b.surveyId = ?
+    </sql>
+    <sql id="saveAnswers">
+        INSERT INTO answer_score VALUES(?,?,?,?,?,?,?,?,?,?,?)
+    </sql>
+    <sql id="getSurveiesCount">
+        select count(b.surveyId) as count, surveyName,b.surveyId from def_survey as a, respondents as b where
+        surveyRegion = ? and surveyDate = ? and enable = 1 and a.surveyId = b.surveyId group by b.surveyId
+    </sql>
+    <sql id="getQuestionCountAndType">
+        select answer.questionId,count(answer.questionId) count,type.*,survey.surveyId from answer_score as answer join
+        def_survey as survey on answer.surveyId=survey.surveyId and survey.enable=1 and survey.surveyDate = ?
+        join def_questions as question on question.questionId = answer.questionId
+        join question_type as type on type.questionTypeId = question.questionType join respondents as respond on
+        respond.respondId = answer.respondId where respond.surveyRegion = ? GROUP BY answer.questionId
+    </sql>
+    <sql id="countOptions">
+        select count(optionA) countA,count(optionB) countB,count(optionC) countC,count(optionD) countD,count(optionE)
+        countE,count(optionF) countF,questionId from answer_score group by questionId
+    </sql>
+</sqlGroup>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sqlGroup name="valueSubmit">
+    <sql id="getValueInidataDetail">
+        select diniDataLabel as name,c.name as orgName,viniDataValue as value from value_inidata as a,def_inidata as
+        b,sys_role as c where viniDate = ? and viniDataRegion = ? and a.diniDataId = b.diniDataId and
+        a.viniDataSubmitOrgRole = c.roleId
+    </sql>
+    <sql id="getStatisticValueInidatasDatail">
+        select diniDataLabel as name,c.name as orgName,siniDataValue as value from value_inidata as a,def_inidata as
+        b,sys_org as c,value_inidatastatics as d where viniDate = ? and viniDataRegion = ? and a.diniDataId =
+        b.diniDataId and d.submitOrg = c.orgId and d.viniDataId = a.viniDataId
+    </sql>
+</sqlGroup>
+
+

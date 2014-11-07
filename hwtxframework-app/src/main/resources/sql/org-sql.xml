@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sqlGroup name="org">
+    <sql id="getOrgsByPid">select c.*,count(userId) as userCount from (select a.* from
+        sys_org as a
+        where pid = ?) as c
+        LEFT JOIN sys_org_user as b on c.orgId
+        = b.orgId
+        GROUP BY c.orgId
+    </sql>
+    <sql id="deleteOrgs">delete from sys_org where orgId = ?</sql>
+    <sql id="getUserCount">
+        select count(userId) c2 from sys_org as a
+        join sys_org_user
+        as b on a.orgId = b.orgId and a.orgId = ?
+    </sql>
+    <sql id="assignUser">
+        insert ignore into sys_org_user values(?,?)
+    </sql>
+    <sql id="delAssignedUser">
+        delete from sys_org_user where orgId = ? and userId = ?
+    </sql>
+    <sql id="getOrgRoles">
+        select name,b.roleId from sys_org_role as a join sys_role as b
+        on b.roleId = a.roleId and a.orgId = ?
+    </sql>
+    <sql id="delOrgRoles">
+        delete from sys_org_role where orgId = ?
+    </sql>
+    <sql id="assignRoles">
+        insert into sys_org_role values(?,?)
+    </sql>
+    <sql id="countOrgByNamePidType">
+        select count(orgId) from sys_org where name = ? and pid = ? and type = ?
+    </sql>
+</sqlGroup>

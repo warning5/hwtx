@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="hwtxframework-app:war">
+    <output-path>$PROJECT_DIR$/hwtxframework-app/target</output-path>
+    <root id="archive" name="hwtxframework-app-0.0.1.war">
+      <element id="artifact" artifact-name="hwtxframework-app:war exploded" />
+    </root>
+  </artifact>
+</component>

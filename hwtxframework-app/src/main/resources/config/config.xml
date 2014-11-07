@@ -1,0 +1,14 @@
+<config>
+	<!-- <base>
+		<property name="db.url" value="jdbc:mysql://127.0.0.1/falcon" />
+		<property name="db.user" value="root" />
+		<property name="db.pwd" value="123456" />
+		<property name="devMode" value="true" />
+	</base> -->
+	<file_monitor enable="false">
+		<item module="hwtx.bond.org">
+			<source>/home/panye/workspace4.3/org/target/classes</source>
+			<target>/home/panye/workspace4.3/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/hwtxjeesite/WEB-INF/modules/hwtx/bond/org/main/resources</target>
+		</item>
+	</file_monitor>
+</config>

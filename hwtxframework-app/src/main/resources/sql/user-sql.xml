@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqlGroup name="user">
+    <model-mapping>
+        <mapping model="com.hwtx.modules.sys.entity.SysRole" alias="role"
+                 name="role"/>
+        <mapping model="com.hwtx.modules.sys.entity.SysOrg" alias="org"
+                 name="org"/>
+    </model-mapping>
+    <sql id="findByLoginName">select user.* from sys_user as user where user.name = ?</sql>
+    <sql id="updatePasswordById">update sys_user set password = ? where id = ?</sql>
+    <sql id="getOrgFuns">
+        select org.*,fp.permissionId as permissionId from sys_user as user join
+        sys_org_user
+        as ou on
+        user.userId=ou.userId
+        join sys_org as org on
+        org.orgId=ou.orgId
+        left
+        join
+        sys_org_role as orgu
+        on
+        orgu.orgId=org.orgId
+        left join
+        sys_role as role on
+        orgu.roleId=role.roleId
+        left JOIN
+        sys_role_permission as rp ON
+        rp.roleId=role.roleId left join
+        sys_function_permission as fp on
+        fp.permissionId = rp.permissionId
+        where
+        user.userId= ?
+    </sql>
+    <sql-clause id="findAllUser">
+        <select>
+            select @row := @row + 1 as num,userId,name,login_ip,login_date
+        </select>
+        <exceptSelect>
+            from sys_user,(SELECT @row := ?) r
+        </exceptSelect>
+    </sql-clause>
+    <sql id="delUser">
+        delete from sys_user where userId = ?
+    </sql>
+    <sql id="getUserByName">
+        select userId,name from sys_user where name = ?
+    </sql>
+    <sql id="updateSysUserWithOutPwd">
+        update sys_user set name = ? ,update_time =
+        ?,update_by = ? where userId = ?
+    </sql>
+    <sql id="assignRoles">
+        insert into sys_user_role values(?,?)
+    </sql>
+    <sql id="getUserRoles">
+        select name,roleId from sys_user_role as a join
+        sys_role as b
+        on b.roleId = a.sys_roleId and a.sys_userId = ?
+    </sql>
+    <sql id="delUserRoles">
+        delete from sys_user_role where sys_userId = ?
+    </sql>
+    <sql id="updateFuncPermissionsSort">
+        update sys_function_permission set sequence = ? where
+        permissionId = ?
+    </sql>
+    <sql id="getUserOrg">
+        select orgId from sys_org_user where userId = ?
+    </sql>
+</sqlGroup>

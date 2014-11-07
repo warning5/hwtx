@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module xmlns="urn:jboss:module:1.4" name="hwtx.bond.org">
+	<resources>
+		<resource-root path="classes" />
+		<resource-root path="resources" />
+		<resource-link name="demo"
+			path="/home/panye/workspace4.3/org/target/classes">
+			<filter>
+				<exclude path="/home/panye/workspace4.3/org/target/classes/views" />
+				<exclude path="/home/panye/workspace4.3/org/target/classes/META-INF" />
+			</filter>
+		</resource-link>
+	</resources>
+	<dependencies>
+	</dependencies>
+</module>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sqlGroup name="dic">
+	<sql-clause id="findListByPage">
+		<select>
+			select @row := @row + 1 as
+			num,id,label,value,type
+		</select>
+		<exceptSelect>
+			from sys_dict,(SELECT @row := ?) r
+		</exceptSelect>
+	</sql-clause>
+	<sql id="findAllType">select distinct type from sys_dict</sql>
+	<sql id="findAllList">select * from sys_dict</sql>
+	<sql id="delete">
+		delete from sys_dict where id = ?
+	</sql>
+</sqlGroup>

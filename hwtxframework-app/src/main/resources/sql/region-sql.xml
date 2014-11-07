@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqlGroup name="region">
+	<sql id="getProvinces">
+		select code,name from dict_province
+	</sql>
+	<sql id="getCityAreas">
+		select code,name,type,pcode from dict_city_area
+	</sql>
+</sqlGroup>

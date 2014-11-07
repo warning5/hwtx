@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="hwtxframework-app:war exploded">
+    <output-path>$PROJECT_DIR$/hwtxframework-app/target/hwtxframework-app-0.0.1</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="hwtxframework-app" />
+        </element>
+      </element>
+      <element id="javaee-facet-resources" facet="hwtxframework-app/web/Web" />
+    </root>
+  </artifact>
+</component>

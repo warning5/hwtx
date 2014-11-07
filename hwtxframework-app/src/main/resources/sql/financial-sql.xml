@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sqlGroup name="financial">
+    <sql-clause id="getFinancialUsers">
+        <select>
+            select @row := @row + 1 as num,b.name userName,b.login_date,c.name as orgName,c.orgId,b.userId
+        </select>
+        <exceptSelect>
+            from app_financial_info as a,(SELECT @row := ?) r,sys_user as b,sys_org as c,sys_org_user as d where
+            a.orgId = c.orgId and b.userId = d.userId and d.orgId = c.orgId
+        </exceptSelect>
+    </sql-clause>
+    <sql id="updateAppUserBySysUserId">
+        update app_user set name = ? where userId = ?
+    </sql>
+    <sql id="deleteFinancialByOrgId">
+        delete from app_financial_info where orgId = ?
+    </sql>
+</sqlGroup>

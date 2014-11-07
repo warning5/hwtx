@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sqlGroup name="value">
+    <sql id="getTableData">
+        select distinct(a.viniDate) as date, a.viniStatus as status from value_inidata as a where
+        a.viniDataSubmitOrgRole = ? and a.viniDataRegion = ? order by date desc
+    </sql>
+    <sql id="getStatisticTableData">
+        select distinct(a.viniDate) as date, b.siniStatus as status from value_inidata as a,
+        value_inidatastatics as b
+        where
+        a.viniDataSubmitOrgRole = ? and a.viniDataRegion = ? and a.viniDataId = b.viniDataId and
+        submitOrg = ? order by
+        date desc
+    </sql>
+    <sql-clause id="getFinancialInputDatas">
+        <select>
+            select distinct(a.siniDate) as date,c.name,c.orgId
+        </select>
+        <exceptSelect>
+            from value_inidatastatics as a,value_inidata as b,app_financial_info as c where
+            a.viniDataId = b.viniDataId
+            and b.viniDataSubmitOrgRole = ? and a.siniDataRegion = ? and a.siniStatus = ? and
+            c.orgId = a.submitOrg
+            order by date desc
+        </exceptSelect>
+    </sql-clause>
+    <sql id="getDefValueInidatas">
+        select a.*,b.viniDataValue as value,b.viniDate as date from def_inidata as a left join
+        value_inidata as b on
+        b.diniDataId = a.diniDataId where b.viniDate = ? and b.viniDataSubmitOrgRole = ? and
+        b.viniDataRegion = ?
+    </sql>
+    <sql id="getDefStatisticValueInidatas">
+        select a.*,c.siniDataValue as value,b.viniDate as date from def_inidata as a left join
+        value_inidata as b on
+        b.diniDataId = a.diniDataId join value_inidatastatics as c on c.viniDataId = b.viniDataId
+        where viniDate = ? and viniDataSubmitOrgRole = ? and viniDataRegion = ? and submitOrg = ?
+    </sql>
+    <sql id="countValueInidata">
+        select count(1) from value_inidata where viniDate = ? and viniDataRegion = ? and
+        viniDataSubmitOrgRole = ?
+    </sql>
+    <sql id="deleteValueInidatastatics">
+        delete from value_inidatastatics where siniDate = ? and siniDataRegion = ? and submitOrg = ?
+    </sql>
+    <sql id="deleteValueInidata">
+        delete from value_inidata where viniDate = ? and viniDataSubmitOrgRole = ? and
+        viniDataRegion = ?
+    </sql>
+    <sql id="saveValueInidata">
+        insert into value_inidata(viniDataId,diniDataId, vkpiId, viniDataValue, viniDataCalRuleId,
+        viniDataSubDate,
+        viniDataAuthRuleId, viniDataRegion, viniDataSubmitOrgRole, isStastic,
+        viniDataCheckMark,viniDate,
+        viniStatus,viniDateFillDate)
+        values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+    </sql>
+    <sql id="saveValueInidatastatics">
+        insert into value_inidatastatics( viniDataId, siniDataId, submitOrg, siniDataValue,
+        siniDataRegion,
+        siniDataCheckMark, siniDate,siniStatus)
+        values(?,?,?,?,?,?,?,?)
+    </sql>
+    <sql id="getValues">
+        select viniDataId,diniDataId from value_inidata where viniDate = ? and viniDataRegion = ?
+        and
+        viniDataSubmitOrgRole = ?
+    </sql>
+    <sql id="getValue">
+        select viniDataValue from value_inidata where diniDataId = ? and viniDate = ? and
+        viniDataRegion = ? and
+        viniDataSubmitOrgRole = ?
+    </sql>
+    <sql id="getStatisticValue">
+        select viniDataValue from value_inidata where diniDataId = ? and viniDate = ? and
+        viniDataRegion = ? and
+        viniDataSubmitOrgRole = ?
+    </sql>
+    <sql id="updateValueStatusBySubmitRole">
+        update value_inidata set viniStatus = ? where viniDataSubmitOrgRole = ? and viniDataRegion =
+        ? and viniDate = ?
+    </sql>
+    <sql id="updateStatisticStatusBySubmitOrg">
+        update value_inidatastatics set siniStatus = ? where siniDataRegion = ? and siniDate = ? and
+        viniDataId in (
+        select viniDataId from value_inidata where viniDataSubmitOrgRole = ? and viniDataRegion = ?
+        and viniDate = ?)
+        and submitOrg = ?
+    </sql>
+    <sql id="countValueInidatastatics">
+        select count(1) from value_inidata as a, value_inidatastatics as b where
+        a.viniDate = ? and a.viniDataRegion = ? and a.viniDataSubmitOrgRole = ? and a.viniDataId =
+        b.viniDataId
+    </sql>
+    <sql id="countStatisticValueInidata">
+        select count(1) from value_inidata as a, value_inidatastatics as b where
+        a.viniDate = ? and a.viniDataRegion = ? and a.viniDataSubmitOrgRole = ? and a.viniDataId =
+        b.viniDataId
+        and b.submitOrg = ?
+    </sql>
+    <sql id="getBackData">
+        select checkNotes from app_data_check where checkedOrgId = ? and checkedDate = ? and
+        checkdRegion = ?
+        and checkType = ? order by checkDate desc limit 0,1
+    </sql>
+    <sql id="mergeStatisticData">
+        select sum(siniDataValue) from value_inidatastatics as a,value_inidata as b where
+        siniDataRegion = ? and
+        siniDate = ? and diniDataId = ? and viniDataSubmitOrgRole = ? and a.viniDataId =
+        b.viniDataId
+    </sql>
+    <sql id="updateInidataDataValue">
+        update value_inidata set viniDataValue = ? where viniDataRegion = ? and viniDate = ? and
+        diniDataId = ? and
+        viniDataSubmitOrgRole = ?
+    </sql>
+    <sql-clause id="getSubmitKpiData">
+        <select>
+            select distinct(vkpiDate) as date,vkpiSubmitTime,vkpiHandleTime,vkpiStatus
+        </select>
+        <exceptSelect>
+            from value_kpi where vkpiRegion = ? and vkpiStatus != ?
+        </exceptSelect>
+    </sql-clause>
+    <sql id="updateValueIinidataStatus">
+        update value_inidata set viniStatus = ? where viniStatus is not null and viniDate = ? and
+        viniDataRegion = ?
+    </sql>
+    <sql id="updateValueIinidataStatisticStatus">
+        update value_inidatastatics set siniStatus = ? where siniDate = ? and siniDataRegion = ?
+    </sql>
+    <sql id="handleKpiValueStatus">
+        update value_kpi set vkpiStatus = ?,vkpiHandleTime = ? where vkpiDate = ? and vkpiRegion = ?
+    </sql>
+    <sql id="handleClassValueStatus">
+        update value_class set vclassStatus = ?,vclassHandleTime = ? where vclassDate = ? and
+        vclassRegion = ?
+    </sql>
+    <sql id="handleCatValueStatus">
+        update value_cat set vcatStatus = ?,vcatHandleTime = ? where vcatDate = ? and vcatRegion = ?
+    </sql>
+    <sql id="submitKpiValueStatus">
+        update value_kpi set vkpiStatus = ?,vkpiSubmitTime = ? where vkpiDate = ? and vkpiRegion = ?
+    </sql>
+    <sql id="submitClassValueStatus">
+        update value_class set vclassStatus = ?,vclassSubmitTime = ? where vclassDate = ? and
+        vclassRegion = ?
+    </sql>
+    <sql id="submitCatValueStatus">
+        update value_cat set vcatStatus = ?,vcatSubmitTime = ? where vcatDate = ? and vcatRegion = ?
+    </sql>
+    <sql id="countKpis">
+        select count(dkpiId) from value_kpi where vkpiDate = ? and vkpiRegion = ? and vkpiStatus = ?
+    </sql>
+    <sql id="deleteKpiValue">
+        delete from value_kpi where vkpiDate = ? and vkpiRegion = ? and dkpiId = ?
+    </sql>
+    <sql id="deleteKpiValues">
+        delete from value_kpi where vkpiDate = ? and vkpiRegion = ?
+    </sql>
+    <sql id="deleteCatValue">
+        delete from value_cat where vcatDate = ? and vcatRegion = ? and dcatId = ?
+    </sql>
+    <sql id="deleteCatValues">
+        delete from value_cat where vcatDate = ? and vcatRegion = ?
+    </sql>
+    <sql id="deleteClassValue">
+        delete from value_class where vclassDate = ? and vclassRegion = ? and dclassId = ?
+    </sql>
+    <sql id="deleteClassValues">
+        delete from value_class where vclassDate = ? and vclassRegion = ?
+    </sql>
+    <sql-clause id="getKpiData">
+        <select>
+            select distinct(vkpiDate) as date,vkpiSubmitTime,vkpiHandleTime,vkpiStatus,org.name as
+            orgName,org.orgId,
+            vkpiRegion
+        </select>
+        <exceptSelect>
+            from value_kpi,sys_org as org,app_pbc_info as info where info.area = vkpiRegion and
+            info.city = ? and org.orgId = info.orgId
+        </exceptSelect>
+    </sql-clause>
+    <sql id="getValueCat">
+        select vcatId,vcatValue,dcatName,b.dcatId from value_cat as a ,def_cat as b where a.dcatId =
+        b.dcatId and
+        a.vcatDate = ? and a.vcatRegion = ?
+    </sql>
+    <sql id="getValueClass">
+        select vclassId,vclassValue,dclassName,b.dclassId from value_class as a,def_class as b where
+        vclassDate = ? and
+        a.dclassId = b.dclassId and vclassRegion = ? and vcatId = ?
+    </sql>
+    <sql id="getValueKpi">
+        select
+        vkpiValue,dkpiName,pid,b.dkpiId,complex,dkpiExtendExp,dkpiStandardizeType,dkpiscore,vkpiId
+        from value_kpi as a,def_kpi as b where vkpiDate = ? and vkpiRegion = ? and a.dkpiId =
+        b.dkpiId and vclassId = ?
+    </sql>
+    <sql id="getMaxKpiValueOfRegions">
+        select max(vkpiValue) from value_kpi where vkpiDate = ? and dkpiId = ? and vkpiStatus = ?
+    </sql>
+    <sql id="getMinKpiValueOfRegions">
+        select min(vkpiValue) from value_kpi where vkpiDate = ? and dkpiId = ? and vkpiStatus = ?
+    </sql>
+    <sql id="updateKpisScore">
+        update value_kpi set vkpiScore = ? where vkpiId = ?
+    </sql>
+    <sql id="updateClassScore">
+        update value_class set vclassValue = ? where vclassId = ?
+    </sql>
+    <sql id="updateCatScore">
+        update value_cat set vcatValue = ? where vcatId = ?
+    </sql>
+    <sql id="getValueSyntheticalByDataAndRegion">
+        select * from value_synthetical where date = ? and region = ?
+    </sql>
+</sqlGroup>
+
+
